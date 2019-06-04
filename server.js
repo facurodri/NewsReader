@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({
 app.use(router);
 
 //Mongo DB connection
-var db = process.envMONGOOB_URI || "mongodb://localhost/mongoHeadlines";
+var db = process.envMONGODB_URI || "mongodb://localhost/mongoHeadlines";
 mongoose.connect(db, function(error){
     if (error){
         console.log(error);
