@@ -2,12 +2,12 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var headlineSchema = new Schema ({
-    healine: {
+    headline: {
         type: String,
         required: true,
         unique: true
     },
-    summery: {
+    summary: {
         type: String,
         required: true
     },

@@ -11,7 +11,7 @@ var app = express();
 // Express Router
 var router = express.Router();
 // require Routes file
-require("config/routes")(router);
+require("./config/routes")(router);
 
 //Makes public a static folder
 app.use(express.static(__dirname + "/public"));
@@ -38,6 +38,7 @@ mongoose.connect(db, function(error){
         console.log("mongoose connection successful!");
     }
 });
+
 
 //Start Server
 app.listen(PORT, function() {
