@@ -75,6 +75,7 @@ $(document).ready(function () {
         });
     }
     function handleArticleScrape(){
+        console.log("Scrape button clicked");
         $.get("/api/fetch")
         .then(function(data){
             initPage();

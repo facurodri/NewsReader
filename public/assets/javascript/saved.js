@@ -2,7 +2,7 @@ $(document).ready(function () {
     var articleContainer = $(".article-container");
 
     $(document).on("click", ".btn.delete", handleArticleDelete);
-    $(document).on("click", ".btn.ntoes", handleArticleNotes);
+    $(document).on("click", ".btn.notes", handleArticleNotes);
     $(document).on("click", ".btn.save", handleNoteSave);
     $(document).on("click", ".btn.note-delete", handleNoteDelete);
 
@@ -72,6 +72,7 @@ $(document).ready(function () {
                 "No notes yet.",
                 "</li>"
             ].join("");
+            notesToRender.push(currentNote);
         }
         else {
             for (var i = 0; i < data.notes.length; i++) {
@@ -88,7 +89,7 @@ $(document).ready(function () {
         $(".note-container").append(notesToRender);
     }
     function handleArticleDelete() {
-        var articleToDelete = $(this).parents("panel").data();
+        var articleToDelete = $(this).parents(".panel").data();
         $.ajax({
             method: "DELETE",
             url: "/api/headlines" + articleToDelete._id
@@ -99,7 +100,7 @@ $(document).ready(function () {
         });
     }
     function handleArticleNotes () {
-        var currentArticle = $(this).parents("panel").data();
+        var currentArticle = $(this).parents(".panel").data();
         $.get("/api/notes"+ currentArticle._id).then(function(data){
             var modalText=[
                 "<div class='container-fluid text-center'>",
@@ -118,7 +119,7 @@ $(document).ready(function () {
                 closeButton: true
             });
             var noteData = {
-                _id =currentArticle._id,
+                _id: currentArticle._id,
                 notes: data ||[]
             };
             $(".btn.save").data("article", noteData);

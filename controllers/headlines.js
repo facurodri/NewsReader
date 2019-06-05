@@ -14,9 +14,9 @@ module.exports = {
             }
             //GO find Collection Object In Headline.js
             Headline.collection.insertMany(articles, { ordered: false }, function (err, docs) {
-                console.log("------------------------------------------------");
-                console.log(articles, err, docs);
-                // cb(err, docs);
+                // console.log("------------------------------------------------");
+                // console.log(articles, err, docs);
+                cb(err, docs);
             });
         });
     },
