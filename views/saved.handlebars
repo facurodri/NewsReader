@@ -14,12 +14,6 @@
             <li class="nav-item">
                 <a class="nav-link" href="/saved">Saved Articles</a>
             </li>
-            <li class="nav-item">
-                <a class="btn btn-danger scrape-new">SCRAPE NEW ARTICLES!</a>
-            </li>
-            <li class="nav-item">
-                <a class="btn btn-danger clear">CLEAR ARTICLES!</a>
-            </li>
         </ul>
     </div>
 </nav>
@@ -35,12 +29,72 @@
     </div>
 </div>
 <div class="container-fluid article-container">
-</div>
-<footer class="footer">
     <div class="container">
-        <p>NewsReader Scraper</p>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="jumbotron shade">
+          <div class="transbox">
+            <h1 class="display-4">Argentina Scraper</h1>
+            <p class="lead">All News From Argentina</p>
+          </div>
+        </div>
+        {{!-- articles --}}
+        {{#if article}}
+        {{#each article}}
+        <div class="card" data-id={{this._id}}>
+          <div class="card-heading">
+            <h4><a href={{this.link}} target="_blank">{{this.title}}</a></h4>
+          </div>
+          <div class="card-body">
+            <p> {{this.summary}}</p>
+            <p class="card-text"><small class="text-muted">Scraped: {{this.created}} / Time of Article:
+                {{this.articleTime}}</small></p>
+            <button type="button" class="btn btn-primary article-notes" data-id={{this._id}}>Article Notes</button>
+            <button type="button" class="btn btn-danger delete-from-save" id={{this.saved}} data-id={{this._id}}>Delete
+              Saved
+              Article</button>
+          </div>
+        </div>
+        {{/each}}
+        {{else}}
+        <div class="card card-default">
+          <div class="card-body">
+            <h4>No saved articles</h4>
+          </div>
+        </div>
+        {{/if}}
+      </div>
     </div>
-</footer>
+  </div>
+</div>
+<div class="modal" id="notesModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Notes for Article</h4>
+        <h4 class="modal-title text-center"></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <form id="confess-submit">
+            <div class="form-group">
+              <div id="article-note-title"></div>
+              <div id="article-note-id"></div>
+              <label for="message-text" class="col-form-label">
+              </label>
+              <textarea class="form-control" id="message-text" placeholdder="Write your note here" required></textarea>
+              <br>
+              <div id="sumbit-text"> </div>
 
-
-<script src="../../assets/javascript/saved.js"></script>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success submit-noteBtn">Submit Note</button><br>
+        <div class="previous-notes"></div>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>

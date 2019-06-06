@@ -15,10 +15,10 @@
                 <a class="nav-link" href="/saved">Saved Articles</a>
             </li>
             <li class="nav-item">
-                <a class="btn btn-danger scrape-new">SCRAPE NEW ARTICLES!</a>
+                <a class="btn btn-warning scrape-new" id="scrape">SCRAPE NEW ARTICLES!</a>
             </li>
             <li class="nav-item">
-                <a class="btn btn-danger clear">CLEAR ARTICLES!</a>
+                <a class="btn btn-danger clearDb" href="/article/clear">CLEAR ARTICLES!</a>
             </li>
         </ul>
     </div>
@@ -33,14 +33,44 @@
         <p>Soccer Edition</p>
     </div>
 </div>
+
+
 <div class="container-fluid article-container">
-</div>
 
-<footer class="footer">
-    <div class="container">
-        <p>NewsReader Scraper</p>
+    {{!-- <div class="container"> --}}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="jumbotron shade">
+                <div class="transbox">
+                    <h1 class="display-4">Argentina scrapper</h1>
+                    <p class="lead">All News From Argentina</p>
+                </div>
+            </div>
+            {{!-- articles --}}
+            {{#if article}}
+            {{#each article}}
+            <div class="card">
+                <div class="card-heading">
+                    <h4><a href={{this.link}} target="_blank">{{this.title}}</a></h4>
+                </div>
+                <div class="card-body">
+                    <p> {{this.summary}}</p>
+                    <p class="card-text"><small class="text-muted">Scraped: {{this.created}} / Time of Article:
+                            {{this.articleTime}}</small></p>
+                    <button type="button" class="btn btn-primary saveArticle" id={{this.saved}}
+                        data-id={{this._id}}>Save Article</button>
+                </div>
+            </div>
+            {{/each}}
+            {{else}}
+            <div class="card card-default">
+                <div class="card-body">
+                    <h4>No Artciles Yet!</h4>
+                </div>
+            </div>
+            {{/if}}
+        </div>
     </div>
-</footer>
+    {{!-- </div> --}}
 
-
-<script src="../../assets/javascript/index.js"></script>
+</div>

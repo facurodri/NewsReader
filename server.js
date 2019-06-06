@@ -2,6 +2,7 @@ var express = require("express");
 var expressHandlebars = require("express-handlebars");
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
+var logger = require("morgan");
 
 // Port Connection
 var PORT = process.env.PORT || 3000;
@@ -13,6 +14,8 @@ var router = express.Router();
 // require Routes file
 require("./config/routes")(router);
 
+// Use morgan logger for logging request
+app.use(logger("dev"));
 //Makes public a static folder
 app.use(express.static(__dirname + "/public"));
 
