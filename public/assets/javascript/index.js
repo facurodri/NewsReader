@@ -61,5 +61,31 @@ $(".article-notes").on("click", function() {
     $("#notesModal").modal("show");
 });
 
+$(".submit-noteBtn").on("click", function (){
+    var thisId = $(this).attr("data-id");
+    $.ajax({
+        method:"POST",
+        url:"/article/"+thisId,
+        data: {
+            body: $("#message-text"),val(),
+        }
+    }).done(function (data) {
+        window.location = "/saved"
+    })
+});
 
+$(".delete-note-btn").on("click", function () {
+    var thisId = $(this).attr("data-id");
+    $.ajax({
+        method: "DELETE",
+        url: "/note/delete/" + thisId 
+    }).done(function (data) {
+        window.location = "/saved"
+    })
+});
 
+$(".clearDb").on("click", function(){
+    $.get("article/clear").then(function (data){
+        window.location ="/"
+    });
+});

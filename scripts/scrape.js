@@ -7,13 +7,14 @@ var scrape = function (cb) {
     axios.get("https://www.ole.com.ar/").then(function (response) {
         // Then, we load that into cheerio and save it to $ for a shorthand selector
         var $ = cheerio.load(response.data);
-        
+
         $("article h1").each(function (i, element) {
             // Save an empty result object
             var result = {};
 
             // Add the text and href of every link, and save them as properties of the result object
-            result.innerText = $(this).text();
+            result.title= $(this).find(".entry-title").text();
+            result.link = $(this).find("a").attr("href");
             // result.title = $(this).text();
 
             // result.link = $(this).attr("href");
