@@ -10,14 +10,13 @@ var PORT = process.env.PORT || 3000;
 // Initialize Express
 var app = express();
 // Express Router
-var router = express.Router();
+// var router = express.Router();
 // require Routes file
-require("./config/routes")(router);
+require("./routes/apiRoutes")(app);
 
 // Use morgan logger for logging request
 app.use(logger("dev"));
 //Makes public a static folder
-app.use(express.static(__dirname + "/public"));
 
 //Handlebars
 app.engine("handlebars", expressHandlebars({
@@ -29,6 +28,7 @@ app.set("view engine","handlebars");
 app.use(bodyParser.urlencoded({
     extended:false
 }));
+app.use(express.static("public"));
 
 app.use(router);
 
