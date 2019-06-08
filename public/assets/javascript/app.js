@@ -12,7 +12,7 @@ $(".saveArticle").on("click", function () {
     var thisId = $(this).attr("data-id");
     $.ajax({
         method: "PUT",
-        url: "/article/save/" +thisId
+        url: "/article/save/" + thisId
     }).done(function(data){
         window.location ="/"
     })

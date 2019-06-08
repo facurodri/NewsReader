@@ -1,87 +1,3 @@
-// var scrape = require("../scripts/scrape");
-// var headlinesController = require("../controllers/headlines");
-// var notesController = require("../controllers/notes");
-
-// module.exports = function (app) {
-//     // homepage
-//     app.get("/", function (req, res) {
-//         db.Article.find({
-//            "saved": false
-//     }, function (error,data) {
-//         var hbsObject = {
-//             article: data
-//         };
-//         res.render("index", hbsObject);
-//     });   
-// });
-
-//     app.get("/saved", function (req, res) {
-//         db.Article.find({
-//             saved: true
-//         }).populate("notes")
-//             .exec(function (error, articles) {
-//                 var hbsObject = {
-//                     article: articles
-//                 };
-//                 res.render("saved", hbsObject);
-//             });
-//         });
-//         // headlinesController.fetch(function (err, docs) {
-//         //     if (!docs || docs.insertedCount === 0) {
-//         //         res.json({
-//         //             message: "no new articles"
-//         //         });
-//         //     } else {
-//         //         res.json({
-//         //             message: "Added + " + docs.insertedCount + " new articles"
-//         //         });
-//         //     }
-//         // });
-//     router.get("/api/headlines", function (req, res) {
-//         var query = {};
-//         if (req.query.saved) {
-//             query = req.query;
-//         }
-//         headlinesController.get(query, function (data) {
-//             res.json(data);
-//         });
-//     });
-//     router.delete("/api/headlines/:id", function (req, res) {
-//         var query = {};
-//         query._id = req.params.id;
-//         headlinesController.delete(query, function (err, data) {
-//             res.json(data);
-//         });
-//     });
-//     router.patch("/api/headlines", function (req, res) {
-//         headlinesController.update(req.body, function (err, data) {
-//           res.json(data)
-//         })
-//       })
-//     router.get("/api/notes/:headline_id?", function (req, res) {
-//         var query = {};
-//         if (req.params.headline_id) {
-//             query._id = req.params.headline_id;
-//         }
-//         notesController.get(query, function (err, data) {
-//             res.json(data);
-//         });
-//     });
-//     router.delete("/api/notes/:id", function (req, res) {
-//         var query = {};
-//         query = req.params.id;
-//         notesController.delete(query, function (err, data) {
-//             res.json(data);
-//         });
-//     });
-//     router.post("/api/notes", function (req, res) {
-//         notesController.save(req.body, function (data) {
-//             res.json(data);
-//         });
-//     });
-// }
-
-
 var cheerio = require("cheerio");
 var axios = require("axios");
 
@@ -89,6 +5,28 @@ var db = require("../models");
 
 module.exports = function (app) {
 
+    app.get("/", function (req, res) {
+        db.Article.find({
+            "saved": false
+        }, function (error, data) {
+            var hbsObject = {
+                article: data
+            };
+            res.render("index", hbsObject);
+        });
+    });
+
+    app.get("/saved", function (req, res) {
+        db.Article.find({
+            saved: true
+        }).populate("notes")
+            .exec(function (error, articles) {
+                var hbsObject = {
+                    article: articles
+                };
+                res.render("saved", hbsObject);
+            });
+    });
     app.get("/scrape", function (req, res) {
         axios.get("https://www.ole.com.ar/").then(function (response) {
             // Then, we load that into cheerio and save it to $ for a shorthand selector
@@ -121,14 +59,24 @@ module.exports = function (app) {
                 console.log(result);
             });
 
+            res.send("Scrape complete");
         });
-        res.send("Scrape complete");
+    });
+
+    app.get("/articles", function(req,res){
+        db.Article.find({}).sort({
+            created:-1
+        }).then(function(dbArticle){
+            res.json(dbArticle);
+        }).catch(function(err){
+            res.json(err);
+        });
     });
 
     app.put("/article/save/:id", function (req, res) {
 
         var id = req.params.id;
-        db.Article.findOneandUpdate({
+        db.Article.findOneAndUpdate({
             _id: id
         }, {
                 "saved": true
@@ -140,68 +88,69 @@ module.exports = function (app) {
             });
     });
 
-    app.post("/articles/delete/:id", function (req,res) {
-        db.Article.findOneandUpdate({
-            "_id":req.params.id
+    app.post("/articles/delete/:id", function (req, res) {
+        db.Article.findOneAndUpdate({
+            "_id": req.params.id
         }, {
-            "saved":false,
-            "notes":[]
-        })
-        .then(function (dbArticle){
-            res.json(dbArticle);
-        }).catch(function(err) {
-            res.json(err);
-        });
+                "saved": false,
+                "notes": []
+            })
+            .then(function (dbArticle) {
+                res.json(dbArticle);
+            }).catch(function (err) {
+                res.json(err);
+            });
     });
 
-    app.get("/article/clear", function (req,res) {
+    app.get("/article/clear", function (req, res) {
         db.Article.deleteMany({})
-        .then(function (dbArticle){
-            res.render("/");
-        }).catch(function (err){
-            res.json(err);
-        });
+            .then(function (dbArticle) {
+                res.render("/");
+            }).catch(function (err) {
+                res.json(err);
+            });
         res.send(true);
     });
 
-    app.get("/articles/:id", function (req,res) {
+    app.get("/articles/:id", function (req, res) {
         db.Article.findOne({
-            _id:req.params.id
+            _id: req.params.id
         })
-        .populate("note")
-        .then(function(dbArticle){
-            res.json(dbArticle);
-        })
-        .catch(function(err){
-            res.json(err);
-        });
-    });
-    
-    app.post("/articles/:id", function (req, res){
-        db.Note(function (dbNote){
-            return db.Article.findOneandUpdate({
-                _id:req.params.id
-            }, {
-                $push: {
-                    note: dbNote._id
-                }
-            }, {
-                new:true
+            .populate("note")
+            .then(function (dbArticle) {
+                res.json(dbArticle);
+            })
+            .catch(function (err) {
+                res.json(err);
             });
-        })
-        .then(function (dbArticle) {
-            res.json(dbArticle);
-        }).catch( function (err){
-            res.json(err);
-        });
     });
 
-    app.delete("/note/delete/:id", function(req,res){
+    app.post("/articles/:id", function (req, res) {
+        db.Note.create(req.body)
+        .then(function (dbNote) {
+            return db.Article.findOneAndUpdate({
+                _id: req.params.id
+            }, {
+                    $push: {
+                        note: dbNote._id
+                    }
+                }, {
+                    new: true
+                });
+        })
+            .then(function (dbArticle) {
+                res.json(dbArticle);
+            }).catch(function (err) {
+                res.json(err);
+            });
+    });
+
+    app.delete("/note/delete/:id", function (req, res) {
         db.Note.findByIdAndDelete({
-            "_id":req.params.id
-        }).then(function (dbNote){
+            "_id": req.params.id
+        }).then(function (dbNote) {
             // res.json(dbNote);
-        }).catch(function (err){
+        }).catch(function (err) {
             res.json(err);
         });
         res.send(true);

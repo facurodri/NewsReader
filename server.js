@@ -11,39 +11,40 @@ var PORT = process.env.PORT || 3000;
 var app = express();
 // Express Router
 // var router = express.Router();
-// require Routes file
-require("./routes/apiRoutes")(app);
 
 // Use morgan logger for logging request
 app.use(logger("dev"));
 //Makes public a static folder
 
+
+//Parse request body as JSON
+app.use(express.urlencoded({
+    extended: true
+}));
+app.use(express.static("public"));
+
+app.use(express.json());
+
+//Mongo DB connection
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+mongoose.connect(MONGODB_URI);
+// mongoose.connect(db, function(error){
+//     if (error){
+//         console.log(error);
+//     } else {
+//         console.log("mongoose connection successful!");
+//     }
+// });
 //Handlebars
 app.engine("handlebars", expressHandlebars({
     defaultLayout: "main"
 }));
-app.set("view engine","handlebars");
+app.set("view engine", "handlebars");
 
-//Parse request body as JSON
-app.use(bodyParser.urlencoded({
-    extended:false
-}));
-app.use(express.static("public"));
-
-app.use(router);
-
-//Mongo DB connection
-var db = process.envMONGODB_URI || "mongodb://localhost/mongoHeadlines";
-mongoose.connect(db, function(error){
-    if (error){
-        console.log(error);
-    } else {
-        console.log("mongoose connection successful!");
-    }
-});
-
+// require Routes file
+require("./routes/apiRoutes")(app);
 
 //Start Server
-app.listen(PORT, function() {
+app.listen(PORT, function () {
     console.log("App running on port" + PORT + "!");
 });
