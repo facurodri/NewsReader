@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var NoteSchema = new Schema ({
     title: {
         type: Schema.Types.ObjectId,
-        ref: "Headline"
+        ref: "Article"
     },
     body: String,
     created: {

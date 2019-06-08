@@ -16,7 +16,6 @@ var app = express();
 app.use(logger("dev"));
 //Makes public a static folder
 
-
 //Parse request body as JSON
 app.use(express.urlencoded({
     extended: true
