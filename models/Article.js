@@ -23,10 +23,6 @@ var ArticleSchema = new Schema ({
         type: Date,
         default: Date.now
     },
-    headlineTime: {
-        type: String,
-        require: true
-    },
     note: [{
         type: Schema.Types.ObjectId,
         ref: "Note"

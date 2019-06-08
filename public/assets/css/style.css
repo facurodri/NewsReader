@@ -4,7 +4,11 @@ html {
 }
 body {
     margin-bottom: 80px;
-    /* background-image: url("../images/paper.jpg"); */
+    background-image: url("../images/soccer-flag.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
 }
 .footer {
     position: absolute;
@@ -40,7 +44,7 @@ body {
 }
 .jumbotron .background-image {
     height: 100%;
-    background-image: url("../images/fallback.jpg");
+    background-image: url("../images/newspaper-background.jpg");
     background-size: cover;
 }
 .jumbotron .caption {
@@ -60,25 +64,6 @@ body {
 .jumbotron p {
     font-size: 30px;
 }
-.panel {
-    border-radius: 0;
-    box-shadow: 3px 3px 20px lighslategrey;
-}
-.panel.panel-default .panel-heading {
-    background-color: rgb(2, 65, 117);
-}
-.panel.panel-default .panel-heading h3 {
-    color: white;
-}
-.panel.panel-default .panel-heading .btn {
-    float: right;
-    margin-bottom: 50px;
-    margin-left: 5px;
-    margin-right: 5px;
-}
-.panel.panel-default .panel-body{
-    font-size: 16px;
-}
 
 .footer>.container>p {
     position: absolute;
@@ -97,12 +82,6 @@ body {
     color: white;
     padding: 10px;
     margin-top: 10px;
-}
-.navbar-inverse .navbar-nav>li>a.scrape-new:hover {
-    background: #4caf50;
-}
-.navbar-inverse .navbar-nav>li>a.scrape-new:active {
-    background: #e51c23;
 }
 .scrape-new {
     cursor: pointer;
@@ -125,3 +104,19 @@ textarea {
     position: relative;
     bottom: 10px;
 } 
+.card-heading {
+    text-align: center;
+}
+.card{
+    padding: 10px;
+    box-shadow: 3px 3px 20px lightblue;
+}
+.delete-note-btn {
+    float:right;
+}
+.nav-item{
+    padding:5px;
+}
+.article-container {
+    align-self: center;
+}

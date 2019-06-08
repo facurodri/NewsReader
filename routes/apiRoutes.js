@@ -32,20 +32,15 @@ module.exports = function (app) {
             // Then, we load that into cheerio and save it to $ for a shorthand selector
             var $ = cheerio.load(response.data);
 
-            $("article h1").each(function (i, element) {
+            $("article").each(function (i, element) {
                 // Save an empty result object
                 var result = {};
 
                 // Add the text and href of every link, and save them as properties of the result object
-                result.title = $(this).find(".entry-title").text();
-                result.link = $(this).find("a").attr("href");
-                result.summary = $(this).find(".entry-excerpt").text();
-                // result.title = $(this).text();
-
-                // result.link = $(this).attr("href");
-
-                // result.description = $(this).find("entry-excerpt").text();
-
+                result.title = $(this).find("h1").text();
+                result.link = "https://www.ole.com.ar"+ $(this).find("a").attr("href");
+                result.summary = $(this).find("div.entry-excerpt").text();
+            
                 // Create a new Article using the `result` object built from scraping
                 db.Article.create(result)
                     .then(function (dbArticle) {
@@ -56,7 +51,7 @@ module.exports = function (app) {
                         // If an error occurred, log it
                         console.log(err);
                     });
-                console.log(result);
+
             });
 
             res.send("Scrape complete");
@@ -156,24 +151,4 @@ module.exports = function (app) {
         res.send(true);
     });
 };
-
-//   var scrape = function (cb) {
-    //     axios.get("https://www.npr.org").then(function (response) {
-        //         var $ = cheerio.load(response.data);
-
-        //         // Now, we grab every h2 within an article tag, and do the following:
-        //         $(".hp-item").each(function (i, element) {
-            //             // Save an empty result object
-            //             var results = {};
-
-            //             results.title = $(element).find("h3.title").text();
-            //             results.url = $(element).find("a").attr('href');
-            //             results.description = $(element).find("p.teaser").text();
-
-            //             console.log(results);
-
-            //         });
-            //     });
-            //     cb(results);
-            // }
 

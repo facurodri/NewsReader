@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="/">NewsReader Scraper</a>
+    <a class="navbar-brand" href="/">ARGNewsReader Scraper</a>
     <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01"
         aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -29,48 +29,49 @@
     <div class="background-image">
     </div>
     <div class="caption">
-        <h1>NewsReader Scraper</h1>
-        <p>Soccer Edition</p>
+        <h1>Argentinian NewsReader Scraper</h1>
+        <p>Futbol Edition</p>
     </div>
 </div>
 
 
-<div class="container-fluid article-container">
+<div class="container article-container">
 
     {{!-- <div class="container"> --}}
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="jumbotron shade">
+    {{!-- <div class="row"> --}}
+    <div class="col-md-12">
+        {{!-- <div class="jumbotron shade">
                 <div class="transbox">
                     <h1 class="display-4">Argentina scrapper</h1>
                     <p class="lead">All News From Argentina</p>
                 </div>
+            </div> --}}
+        {{!-- articles --}}
+        {{#if article}}
+        {{#each article}}
+        <br>
+        <div class="card">
+            <div class="card-heading">
+                <h3><a href={{this.link}} target="_blank">{{this.title}}</a></h3>
             </div>
-            {{!-- articles --}}
-            {{#if article}}
-            {{#each article}}
-            <div class="card">
-                <div class="card-heading">
-                    <h4><a href={{this.link}} target="_blank">{{this.title}}</a></h4>
-                </div>
-                <div class="card-body">
-                    <p> {{this.summary}}</p>
-                    <p class="card-text"><small class="text-muted">Scraped: {{this.created}} / Time of Article:
-                            {{this.articleTime}}</small></p>
-                    <button type="button" class="btn btn-primary saveArticle" id={{this.saved}}
-                        data-id={{this._id}}>Save Article</button>
-                </div>
+            <div class="card-body">
+                <p> {{this.summary}}</p>
+                <p class="card-text"><small class="text-muted">Scraped: {{this.created}}
+                    </small></p>
+                <button type="button" class="btn btn-primary saveArticle" id={{this.saved}} data-id={{this._id}}>Save
+                    Article</button>
             </div>
-            {{/each}}
-            {{else}}
-            <div class="card card-default">
-                <div class="card-body">
-                    <h4>No Artciles Yet!</h4>
-                </div>
-            </div>
-            {{/if}}
         </div>
+        {{/each}}
+        {{else}}
+        <div class="card card-default">
+            <div class="card-body">
+                <h2>No Artciles Yet!</h2>
+            </div>
+        </div>
+        {{/if}}
     </div>
+    {{!-- </div> --}}
     {{!-- </div> --}}
 
 </div>
